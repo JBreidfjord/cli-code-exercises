@@ -1,6 +1,8 @@
+import json
 import os
 import secrets
 import shutil
+import subprocess
 
 from fastapi import HTTPException
 
@@ -23,3 +25,20 @@ def create_temp_dir(course_code: int, exercise_id: int, submission_file: bytes, 
     shutil.copyfile(test_filename, f"{temp_dir}{test_dir}/test.py")
 
     return temp_dir + test_dir
+
+
+def run_tests(temp_dir: str) -> None:
+    subprocess.run(
+        ["pytest", f"{temp_dir}/test.py", f"--report-log={temp_dir}/output.json"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+
+
+def parse_test_results(temp_dir: str) -> str:
+    with open(f"{temp_dir}/output.json") as file:
+        results = file.readlines()
+        strippedResults = [line.strip() for line in results]
+        resultsAsJSONStrArray = "[" + ",".join(strippedResults) + "]"
+    parsedResults = json.loads(resultsAsJSONStrArray)
+    return parsedResults
