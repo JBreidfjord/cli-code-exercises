@@ -7,11 +7,12 @@ authors = ["Jonathan Breidfjord <jbreidfjord@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.79.0"
-uvicorn = {extras = ["standard"], version = "^0.18.2"}
+uvicorn = { extras = ["standard"], version = "^0.18.2" }
 python-multipart = "^0.0.5"
+pytest-reportlog = "^0.1.2"
+pytest = "^5.2"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
 black = "^22.6.0"
 isort = "^5.10.1"
 
